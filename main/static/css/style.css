@@ -1,0 +1,21 @@
+body {
+    background: #ece1be;
+}
+
+.container > header {
+    padding: 0 5vw 0;
+    border-radius: 0 0 30px 30px;
+    box-shadow: #000000 0 0 10px;
+}
+
+.w-33 {
+    width: 33% !important;
+}
+
+.form-label {
+    font-size: 1.1rem;
+}
+
+.auth-form {
+    margin: 0 30%;
+}

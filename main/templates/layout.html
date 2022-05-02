@@ -1,0 +1,31 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static "lib/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex flex-wrap bg-dark justify-content-center py-3 mb-4 align-items-center">
+            <a href="/" class="d-flex align-items-center mb-3 mdb-md-0 me-md-auto text-dark text-decoration-none">
+                <span class="fs-3 text-light">{{ title }}</span>
+            </a>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item me-3"><a href="{% url 'create_ad' %}" class="btn btn-outline-light" aria-current="page">Подать объявление</a></li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item"> <span class="text-light px-3">{{ user.username }}</span> <a href="{% url 'logout' %}" class="btn btn-light">Выйти</a></li>
+                {% else %}
+                    <li class="nav-item"><a href="{% url 'login' %}" class="btn btn-light">Войти</a></li>
+                {% endif %}
+            </ul>
+        </header>
+    </div>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
