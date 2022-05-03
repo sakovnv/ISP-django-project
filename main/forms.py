@@ -12,7 +12,7 @@ class CreateAdForm(forms.ModelForm):
 
     class Meta:
         model = Ad
-        fields = '__all__'
+        fields = ['title', 'description', 'cost', 'category', 'phone', 'image']
         widgets = {
             'title': forms.TextInput(attrs=form_attr),
             'description': forms.Textarea(attrs=form_attr),

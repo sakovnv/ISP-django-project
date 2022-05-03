@@ -6,6 +6,9 @@ from django.db import models
 class User(AbstractUser):
     ads_count = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.username
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -20,9 +23,9 @@ class Ad(models.Model):
     cost = models.IntegerField(verbose_name='Стоимость')
     category = models.ForeignKey("Category", on_delete=models.PROTECT, verbose_name='Категория')
     phone = models.CharField(max_length=32, verbose_name='Номер телефона')
-    image = models.ImageField(upload_to=f"images/{title}/", verbose_name='Изображения')
+    image = models.ImageField(upload_to=f"images/{title}/", verbose_name='Изображения', null=True)
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
-    # author = models.ForeignKey("User", on_delete=models.PROTECT, verbose_name='Автор', default='none')
+    author = models.ForeignKey("User", on_delete=models.PROTECT, verbose_name='Автор', null=False)
 
     def __str__(self):
         return self.title

@@ -6,22 +6,25 @@
 {% block content %}
 
 <div class="container">
-    {% for ad in ads %}
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="..." class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ ad.title }}</h5>
-                        <p class="card-text">{{ ad.description }}</p>
-                        <p class="card-text"><small class="text-muted">{{ ad.time_create }}</small></p>
+    <div class="ad-cards d-flex justify-content-between flex-wrap mx-5">
+        {% for ad in ads %}
+            <div class="card mb-3 ad-u-card border-0">
+                <div class="row g-0">
+                    <div class="col-md-5">
+                        <img src="{{ ad.image.url }}" class="img-fluid rounded-start" height="150" alt="...">
+                        <p><small class="text-muted position-relative ms-2 my-2 card-date-text">{{ ad.time_create }}</small></p>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ ad.title }}</h5>
+                            <p class="card-text">{{ ad.description }}</p>
+                        </div>
+                        <a href="/" class="btn btn-outline-dark float-end mb-3 me-3">Посмотреть</a>
                     </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}
