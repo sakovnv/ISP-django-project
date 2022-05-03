@@ -59,6 +59,12 @@ body {
     background: linear-gradient(180deg, transparent, #000000 50%);
 }
 
-.ad-cards {
+.adv-content {
+    margin: 0 10% 0;
+    box-shadow: #ffffff 0 0 5px;
+    border-radius: 10px;
+}
 
+.img-border {
+    box-shadow: #cecece 0 0 6px;
 }

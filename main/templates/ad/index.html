@@ -1,10 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'layout.html' %}
+{% block title %}
+{{ title }}
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+    <div class="container">
+        <div class="adv-content bg-light p-4 mt-5">
+            <div class="header border-bottom pb-2 mb-4 ms-md-4">
+                <h1 class="text-center text-md-start ms-md-4 mb-4">{{ ad.title }}</h1>
+                <div class="text-end">
+                    <span class="text-muted">{{ ad.time_create }}</span>
+                </div>
+            </div>
+            <div class="row pb-4 border-bottom">
+                <div class="col-md-4">
+                    <img src="{{ ad.image.url }}" class="img-fluid rounded-start img-border" height="200" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="mx-5 mt-4">
+                        {{ ad.description }}
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="mb-2">
+                    <span><b>Категория:</b> {{ ad.category }}</span>
+                </div>
+                <div class="mb-2">
+                    <span><b>Стоимость:</b> {{ ad.cost }}</span>
+                </div>
+                <div class="mb-2">
+                    <span><b>Номер телефона:</b> {{ ad.phone }}</span>
+                </div>
+                {% if ad.author != null %}
+                    <div class="mb-2">
+                        <span><b>Автор:</b> {{ ad.author }}</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

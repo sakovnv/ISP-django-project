@@ -9,17 +9,17 @@
     <div class="ad-cards d-flex justify-content-between flex-wrap mx-5">
         {% for ad in ads %}
             <div class="card mb-3 ad-u-card border-0">
-                <div class="row g-0">
-                    <div class="col-md-5">
-                        <img src="{{ ad.image.url }}" class="img-fluid rounded-start" height="150" alt="...">
-                        <p><small class="text-muted position-relative ms-2 my-2 card-date-text">{{ ad.time_create }}</small></p>
+                <div class="row g-0 p-4">
+                    <div class="col-md-5 text-center">
+                        <img src="{{ ad.image.url }}" class="img-fluid rounded-start img-border" height="150" alt="...">
+                        <p class="mt-3"><small class="text-muted card-date-text">{{ ad.time_create }}</small></p>
                     </div>
                     <div class="col-md-7">
                         <div class="card-body">
                             <h5 class="card-title">{{ ad.title }}</h5>
                             <p class="card-text">{{ ad.description }}</p>
                         </div>
-                        <a href="/" class="btn btn-outline-dark float-end mb-3 me-3">Посмотреть</a>
+                        <a href="{% url 'ad' ad.pk %}" class="btn btn-outline-dark float-end mb-3 me-3">Посмотреть</a>
                     </div>
                 </div>
             </div>

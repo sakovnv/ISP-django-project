@@ -1,5 +1,6 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -47,7 +48,8 @@ class CreateAd(DataMixin, CreateView):
         return dict(list(context.items()) + list(u_context.items()))
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        if self.request.user is AnonymousUser:
+            form.instance.author = self.request.user
         form.save()
         return redirect('home')
 
@@ -81,11 +83,11 @@ class Login(DataMixin, LoginView):
         return reverse_lazy('home')
 
 
-class AdView(TemplateView):
-    template_name = 'ad/index.html'
+def ad_view(request, ad_id):
+    ad = Ad.objects.get(pk=ad_id)
+    return render(request, 'ad/index.html', {'ad': ad, 'title': 'Объявление'})
 
 
 def logout_user(request):
     logout(request)
     return redirect('login')
-
