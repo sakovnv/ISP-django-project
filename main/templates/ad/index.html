@@ -9,7 +9,7 @@
             <div class="header border-bottom pb-2 mb-4 ms-md-4">
                 <h1 class="text-center text-md-start ms-md-4 mb-4">{{ ad.title }}</h1>
                 <div class="text-end">
-                    <span class="text-muted">{{ ad.time_create }}</span>
+                    <span class="text-muted">Создано: {{ ad.time_create }}</span>
                 </div>
             </div>
             <div class="row pb-4 border-bottom">
@@ -38,6 +38,17 @@
                     </div>
                 {% endif %}
             </div>
+            {% if ad.author == request.user %}
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex align-items-end">
+                        <small class="text-muted">Обновлено: {{ ad.time_update }}</small>
+                    </div>
+                    <div class="mt-4 text-end d-flex">
+                        <a href="{% url 'edit_ad' ad.pk %}" class="btn btn-dark me-2">Редактировать</a>
+                        <a class="btn btn-danger">Удалить</a>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

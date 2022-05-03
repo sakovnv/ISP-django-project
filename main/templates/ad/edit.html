@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'edit_ad' pk=ad.pk %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="w-33 ms-5">
+            <div class="form-error">{{ form.non_fields_errors }}</div>
+
+            {% for f in form %}
+                <div class="mb-3">
+                    <label class="form-label fw-bold" for="{{ f.id_for_label }}">{{ f.label }}: </label>
+                    <div>{{ f }}</div>
+                    <div class="form-error">{{ f.errors }}</div>
+                </div>
+            {% endfor %}
+
+            <input class="btn btn-outline-dark float-end mt-3" type="submit" value="Сохранить">
+        </div>
+    </form>
+{% endblock %}

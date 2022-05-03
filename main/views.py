@@ -4,7 +4,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, UpdateView
 
 from .forms import *
 from .models import *
@@ -52,6 +52,22 @@ class CreateAd(DataMixin, CreateView):
             form.instance.author = self.request.user
         form.save()
         return redirect('home')
+
+
+class EditAd(DataMixin, UpdateView):
+    form_class = EditAdForm
+    template_name = 'ad/edit.html'
+
+    def get_queryset(self):
+        return Ad.objects.filter(pk=self.kwargs.get('pk', None))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        u_context = self.get_context(title='Редактирование объявления')
+        return dict(list(context.items()) + list(u_context.items()))
+
+    def get_success_url(self):
+        return reverse_lazy('ad', kwargs={'ad_id': self.kwargs.get('pk', None)})
 
 
 class Register(DataMixin, CreateView):

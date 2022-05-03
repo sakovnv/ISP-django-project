@@ -23,6 +23,22 @@ class CreateAdForm(forms.ModelForm):
         }
 
 
+class EditAdForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    class Meta:
+        model = Ad
+        fields = ['title', 'description', 'cost', 'category', 'phone']
+        widgets = {
+            'title': forms.TextInput(attrs=form_attr),
+            'description': forms.Textarea(attrs=form_attr),
+            'cost': forms.TextInput(attrs=form_attr),
+            'category': forms.Select(attrs=form_attr),
+            'phone': forms.TextInput(attrs=form_attr),
+        }
+
+
 class RegisterForm(UserCreationForm):
 
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs=form_attr))
