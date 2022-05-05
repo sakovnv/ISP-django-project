@@ -4,6 +4,28 @@
 {% endblock %}
 
 {% block content %}
+
+    <div class="modal fade" id="confirmDeletionAd" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Подтверждение удаления</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Вы действительно хотите удалить это объявление?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <form method="post" action="{% url 'delete_ad' ad.pk %}">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-danger" value="Удалить"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="adv-content bg-light p-4 mt-5">
             <div class="header border-bottom pb-2 mb-4 ms-md-4">
@@ -44,8 +66,9 @@
                         <small class="text-muted">Обновлено: {{ ad.time_update }}</small>
                     </div>
                     <div class="mt-4 text-end d-flex">
-                        <a href="{% url 'edit_ad' ad.pk %}" class="btn btn-dark me-2">Редактировать</a>
-                        <a class="btn btn-danger">Удалить</a>
+                        <form action=""></form>
+                            <a href="{% url 'edit_ad' ad.pk %}" class="btn btn-dark me-2">Редактировать</a>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeletionAd">Удалить</button>
                     </div>
                 </div>
             {% endif %}
