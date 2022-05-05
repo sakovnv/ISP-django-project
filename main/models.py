@@ -1,6 +1,6 @@
-from django import forms
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 
 
 class User(AbstractUser):
@@ -11,10 +11,14 @@ class User(AbstractUser):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, verbose_name='Название')
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Категории'
+        verbose_name_plural = verbose_name
 
 
 class Ad(models.Model):
@@ -31,3 +35,9 @@ class Ad(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('ad', kwargs={'ad_id': self.pk})
+
+    class Meta:
+        verbose_name = 'Объявления'
+        verbose_name_plural = verbose_name
