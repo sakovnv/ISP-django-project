@@ -27,15 +27,18 @@ class EditAdForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    image = forms.FileInput()
+
     class Meta:
         model = Ad
-        fields = ['title', 'description', 'cost', 'category', 'phone']
+        fields = ['title', 'description', 'cost', 'category', 'phone', 'image']
         widgets = {
             'title': forms.TextInput(attrs=form_attr),
             'description': forms.Textarea(attrs=form_attr),
             'cost': forms.TextInput(attrs=form_attr),
             'category': forms.Select(attrs=form_attr),
             'phone': forms.TextInput(attrs=form_attr),
+            'image': forms.FileInput(attrs={**form_attr, 'accept': 'image/*,image/jpeg', 'multiple': ''})
         }
 
 

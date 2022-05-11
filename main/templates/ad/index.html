@@ -60,14 +60,17 @@
                     </div>
                 {% endif %}
             </div>
-            {% if ad.author == request.user %}
+            {% if ad.author == request.user or request.user.is_superuser %}
                 <div class="d-flex justify-content-between">
                     <div class="d-flex align-items-end">
                         <small class="text-muted">Обновлено: {{ ad.time_update }}</small>
                     </div>
                     <div class="mt-4 text-end d-flex">
-                        <form action=""></form>
-                            <a href="{% url 'edit_ad' ad.pk %}" class="btn btn-dark me-2">Редактировать</a>
+{#                        <form method="post" action="{% url 'edit_ad' ad.pk %}" class="mb-0">#}
+{#                            {% csrf_token %}#}
+{#                            <input type="submit" class="btn btn-dark me-2" value="Редактировать"/>#}
+{#                        </form>#}
+                       <a href="{% url 'edit_ad' ad.pk %}" class="btn btn-dark me-2">Редактировать</a>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeletionAd">Удалить</button>
                     </div>
                 </div>

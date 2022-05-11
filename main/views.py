@@ -1,13 +1,19 @@
+import logging
+
 from django.contrib.auth import logout, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.views import LoginView
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views.defaults import page_not_found
 from django.views.generic import CreateView, TemplateView, UpdateView, DeleteView
 
 from .forms import *
 from .models import *
+
+logger = logging.getLogger(__name__)
 
 
 def home(request):
@@ -50,7 +56,10 @@ class CreateAd(DataMixin, CreateView):
     def form_valid(self, form):
         if self.request.user is not AnonymousUser:
             form.instance.author = self.request.user
-        form.save()
+        ad = form.save()
+
+        logger.info(f'{self.request.user} created ad "{ad.title}"')
+
         return redirect('home')
 
 
@@ -67,15 +76,21 @@ class EditAd(DataMixin, UpdateView):
         return dict(list(context.items()) + list(u_context.items()))
 
     def get_success_url(self):
-        return reverse_lazy('ad', kwargs={'ad_id': self.kwargs.get('pk', None)})
+        logger.info(f'"{self.get_object()}" edited by {self.request.user}')
 
+        return reverse_lazy('ad', kwargs={'ad_id': self.kwargs.get('pk', None)})
+    
 
 class DeleteAd(DeleteView):
     model = Ad
-    success_url = reverse_lazy('home')
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
+
+    def get_success_url(self):
+        logger.info(f'{self.request.user} deleted "{self.get_object()}" ad')
+
+        return reverse_lazy('home')
 
 
 class Register(DataMixin, CreateView):
@@ -91,6 +106,9 @@ class Register(DataMixin, CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
+
+        logger.info(f'{user} registered')
+
         return redirect('home')
 
 
@@ -104,14 +122,18 @@ class Login(DataMixin, LoginView):
         return dict(list(context.items()) + list(u_context.items()))
 
     def get_success_url(self):
+        logger.info(f'{self.request.user} logged in')
+
         return reverse_lazy('home')
 
 
 def ad_view(request, ad_id):
-    ad = Ad.objects.get(pk=ad_id)
+    ad = Ad.objects.select_related('author', 'category').get(pk=ad_id)
     return render(request, 'ad/index.html', {'ad': ad, 'title': 'Объявление'})
 
 
 def logout_user(request):
+    logger.info(f'{request.user} logged out')
+
     logout(request)
     return redirect('login')
