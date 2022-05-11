@@ -12,6 +12,7 @@ class User(AbstractUser):
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
 
     def __str__(self):
         return self.name

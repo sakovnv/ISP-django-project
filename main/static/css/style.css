@@ -68,3 +68,21 @@ body {
 .img-border {
     box-shadow: #cecece 0 0 6px;
 }
+.nav-link {
+    border: solid 1px #00000000;
+    transition: .2s all;
+}
+
+.nav-link.active {
+    color: #212529;
+    box-shadow: 0 0 10px #00000040;
+    border: solid 1px #00000010;
+    background: #ffffff48;
+}
+
+.nav-link:hover {
+    color: #212529;
+    box-shadow: 0 0 10px #00000040;
+    background: #ffffff50;
+    transition: .3s all;
+}

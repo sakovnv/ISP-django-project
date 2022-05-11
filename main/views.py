@@ -19,8 +19,16 @@ logger = logging.getLogger(__name__)
 def home(request):
     categories = Category.objects.all()
     ads = Ad.objects.all()
-    return render(request, 'main/index.html', {'ads': ads, 'categories': categories, 'title': 'Главная страница'})
+    return render(request, 'main/index.html', {'ads': ads, 'categories': categories, 'title': 'Главная страница',
+                                               'selected_category': -1})
 
+
+def category_ads(request, category_slug):
+    categories = Category.objects.all()
+    selected_category = Category.objects.get(slug=category_slug)
+    ads = Ad.objects.filter(category=selected_category)
+    return render(request, 'main/index.html', {'ads': ads, 'categories': categories, 'title': 'Главная страница',
+                                               'selected_category': selected_category.id})
 
 # def create_ad(request):
 #     if request.method == 'POST':
@@ -129,7 +137,7 @@ class Login(DataMixin, LoginView):
 
 def ad_view(request, ad_id):
     ad = Ad.objects.select_related('author', 'category').get(pk=ad_id)
-    return render(request, 'ad/index.html', {'ad': ad, 'title': 'Объявление'})
+    return render(request, 'ad/index.html', {'ad': ad, 'title': 'Объявление', 'categories': Category.objects.all()})
 
 
 def logout_user(request):
