@@ -27,7 +27,7 @@ def category_ads(request, category_slug):
     categories = Category.objects.all()
     selected_category = Category.objects.get(slug=category_slug)
     ads = Ad.objects.filter(category=selected_category)
-    return render(request, 'main/index.html', {'ads': ads, 'categories': categories, 'title': 'Главная страница',
+    return render(request, 'main/index.html', {'ads': ads, 'categories': categories, 'title': selected_category,
                                                'selected_category': selected_category.id})
 
 # def create_ad(request):
@@ -141,6 +141,7 @@ def ad_view(request, ad_id):
 
 
 def logout_user(request):
+
     logger.info(f'{request.user} logged out')
 
     logout(request)

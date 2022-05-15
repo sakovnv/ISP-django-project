@@ -24,13 +24,16 @@
             </ul>
         </header>
     </div>
+    <div class="text-center mb-2">
+        <span id="time" class="m-4 bg-light px-2 py-1 text-dark"></span>
+    </div>
     <ul class="nav justify-content-center mb-4 border-dark">
-        <li class="nav-item">
-            <a class="nav-link text-dark {% if selected_category == -1 %} active {% endif %}" href="{% url 'home' %}">Все</a>
+        <li class="nav-item mx-1">
+            <a class="nav-link rounded-2 text-dark {% if selected_category == -1 %} active {% endif %}" href="{% url 'home' %}">Все</a>
         </li>
         {% for category in categories %}
-            <li class="nav-item">
-                <a class="nav-link text-dark {% if selected_category == category.id %} active {% endif %}" href="{% url 'category_ads' category.slug %}">{{ category }}</a>
+            <li class="nav-item mx-1">
+                <a class="nav-link rounded-2 text-dark{% if selected_category == category.id %} active {% endif %}" href="{% url 'category_ads' category.slug %}">{{ category }}</a>
             </li>
         {% endfor %}
     </ul>
@@ -40,4 +43,5 @@
 </body>
 
 <script src="{% static "lib/js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/script.js" %}"></script>
 </html>
