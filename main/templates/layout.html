@@ -1,6 +1,6 @@
 {% load static %}
 
-<html lang="en">
+<html lang="en" xmlns="">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
@@ -8,24 +8,84 @@
     <link rel="stylesheet" href="{% static "css/style.css" %}">
 </head>
 <body>
+    <div class="modal fade" tabindex="-1" id="AdsListModal" data-bs-target="#AdsListModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AdsListModalLabel">Список ваших объявлений</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="list-group">
+                        {% for ad in user_ads %}
+                            <a href="{% url 'ad' ad.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{ ad.title }}</h5>
+                                    <small>{{ ad.time_create }}</small>
+                                </div>
+                                <p class="mb-1 card-text">{{ ad.description }}</p>
+                                <small>Категория: {{ ad.category }}</small>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="CategorySubscribeModal" data-bs-target="#CategorySubscribeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CategorySubscribeModalLabel">Категории:</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Выберите категории на которые хотите подписаться. </h6>
+                    <h6>Светлыми отмечены категории на которые вы уже подписаны.</h6>
+                    <div class="list-group">
+                        {% csrf_token %}
+                        {% for category in categories %}
+                            <button name="category-subscribe" class="btn btn-subscribe py-2 my-2 mx-5{% if category in user_categories %} subscribed{% endif %}" id="category-{{ category.id }}" value={{ category.id }}>{{ category }}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <header class="d-flex flex-wrap bg-dark justify-content-center py-3 mb-4 align-items-center">
-            <a href="/" class="d-flex align-items-center mb-3 mdb-md-0 me-md-auto text-dark text-decoration-none">
-                <span class="fs-3 text-light">{{ title }}</span>
+            <a href="/" class="d-flex mb-3 mdb-md-0 me-md-auto text-dark text-decoration-none">
+                <span class="fs-3 text-light fw-bold">{{ title }}</span>
             </a>
 
             <ul class="nav nav-pills">
-                <li class="nav-item me-3"><a href="{% url 'create_ad' %}" class="btn btn-outline-light" aria-current="page">Подать объявление</a></li>
+                <li class="nav-item me-3"><a href="{% url 'create_ad' %}" class="btn btn-outline-warning" aria-current="page">Подать объявление</a></li>
                 {% if request.user.is_authenticated %}
-                    <li class="nav-item"> <span class="text-light px-3">{{ user.username }}</span> <a href="{% url 'logout' %}" class="btn btn-light">Выйти</a></li>
+                    <li class="d-inline-block">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-light logged-left dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ user.username }}
+                            </button><!--
+                         --><a href="{% url 'logout' %}" class="btn btn-light logged-right">Выйти</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#AdsListModal">Список собственных объявлений</button></li>
+                                <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#CategorySubscribeModal">Подписаться на категорию</button></li>
+                            </ul>
+                        </div>
+                    </li>
                 {% else %}
                     <li class="nav-item"><a href="{% url 'login' %}" class="btn btn-light">Войти</a></li>
                 {% endif %}
             </ul>
         </header>
-    </div>
-    <div class="text-center mb-2">
-        <span id="time" class="m-4 bg-light px-2 py-1 text-dark"></span>
     </div>
     <ul class="nav justify-content-center mb-4 border-dark">
         <li class="nav-item mx-1">
@@ -37,11 +97,15 @@
             </li>
         {% endfor %}
     </ul>
+    <div class="text-center mb-5">
+        <h5 id="time" class="bg-light px-2 py-1 text-dark d-inline-block"></h5>
+    </div>
     <div class="container">
         {% block content %}{% endblock %}
     </div>
 </body>
 
-<script src="{% static "lib/js/bootstrap.min.js" %}"></script>
 <script src="{% static "js/script.js" %}"></script>
+<script src="{% static "lib/js/bootstrap.bundle.min.js" %}"></script>
+<script src="{% static "lib/js/jquery-3.6.0.min.js" %}"></script>
 </html>

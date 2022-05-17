@@ -4,9 +4,10 @@ from django.contrib.auth import logout, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_protect
 from django.views.defaults import page_not_found
 from django.views.generic import CreateView, TemplateView, UpdateView, DeleteView
 
@@ -16,19 +17,19 @@ from .models import *
 logger = logging.getLogger(__name__)
 
 
-def home(request):
-    categories = Category.objects.all()
-    ads = Ad.objects.all()
-    return render(request, 'main/index.html', {'ads': ads, 'categories': categories, 'title': 'Главная страница',
-                                               'selected_category': -1})
+# def home(request):
+#     categories = Category.objects.all()
+#     ads = Ad.objects.all()
+#     return render(request, 'main/index.html', {'ads': ads, 'categories': categories, 'title': 'Главная страница',
+#                                                'selected_category': -1})
 
 
-def category_ads(request, category_slug):
-    categories = Category.objects.all()
-    selected_category = Category.objects.get(slug=category_slug)
-    ads = Ad.objects.filter(category=selected_category)
-    return render(request, 'main/index.html', {'ads': ads, 'categories': categories, 'title': selected_category,
-                                               'selected_category': selected_category.id})
+# def category_ads(request, category_slug):
+#     categories = Category.objects.all()
+#     selected_category = Category.objects.get(slug=category_slug)
+#     ads = Ad.objects.filter(category=selected_category)
+#     return render(request, 'main/index.html', {'ads': ads, 'categories': categories, 'title': selected_category,
+#                                                'selected_category': selected_category.id})
 
 # def create_ad(request):
 #     if request.method == 'POST':
@@ -49,6 +50,26 @@ def category_ads(request, category_slug):
 #     else:
 #         form = CreateAdForm()
 #         return render(request, 'ad/create.html', {'form': form, 'title': 'Создание объявление'})
+
+
+class Home(DataMixin, TemplateView):
+    template_name = 'main/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        u_context = self.get_context(title='Главная страница', selected_category=-1)
+        return dict(list(context.items()) + list(u_context.items()))
+
+
+class CategoryAds(DataMixin, TemplateView):
+    template_name = 'main/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        selected_category = Category.objects.get(slug=kwargs['category_slug'])
+        ads = Ad.objects.filter(category=selected_category)
+        u_context = self.get_context(title='Главная страница', selected_category=selected_category.id, ads=ads)
+        return dict(list(context.items()) + list(u_context.items()))
 
 
 class CreateAd(DataMixin, CreateView):
@@ -146,3 +167,13 @@ def logout_user(request):
 
     logout(request)
     return redirect('login')
+
+
+def subscribe_category(request):
+    category_id = request.POST['category_id']
+    if bool(request.POST['is_subscribed'] == 'true'):
+        request.user.category_subscription.add(category_id)
+    else:
+        request.user.category_subscription.remove(category_id)
+
+    return HttpResponse(status=204)

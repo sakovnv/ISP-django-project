@@ -86,3 +86,34 @@ body {
     background: #ffffff50;
     transition: .3s all;
 }
+
+.logged-left {
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    outline: none;
+}
+
+.logged-right {
+    border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    outline: none;
+}
+
+.btn-subscribe
+{
+    background: #c00 !important;
+    color: #ffffff !important;
+}
+
+.subscribed {
+    background: #ffffff !important;
+    border: 1px solid #adb5bd !important;
+    color: #000 !important;
+}
+
+.btn:focus,.btn:active {
+   outline: none !important;
+   box-shadow: none;
+}
