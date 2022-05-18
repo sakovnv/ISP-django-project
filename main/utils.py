@@ -1,3 +1,5 @@
+from django.contrib.auth.models import AnonymousUser
+
 from main.models import *
 
 
@@ -15,11 +17,16 @@ class DataMixin:
         self.context = kwargs
         categories = Category.objects.all()
         ads = Ad.objects.all()
-        user_ads = ads.filter(author=self.request.user)
+        user_ads = None
+
+        if self.request.user.is_authenticated:
+            user_ads = ads.filter(author=self.request.user)
+
+            self.context['user_categories'] = self.request.user.category_subscriptions.all()
+
         self.context['categories'] = categories
         self.context['ads'] = ads
         self.context['user_ads'] = user_ads
-        self.context['user_categories'] = self.request.user.category_subscription.all()
         self.context.update(kwargs_copy)
 
         return self.context

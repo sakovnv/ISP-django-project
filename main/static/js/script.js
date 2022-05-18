@@ -25,13 +25,12 @@ Array.from(categorySubscribeList, function (e) {
         let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
         $.ajax({
             headers: {'X-CSRFToken': csrftoken},
-            url: 'subscribe_category/',
+            url: '/subscribe_category/',
             type: 'POST',
             data: {
                 'is_subscribed': isSubscribed,
                 'category_id': e.getAttribute('value'),
             }
           });
-        console.log(isSubscribed)
     }
 })

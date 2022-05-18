@@ -8,6 +8,7 @@
 <form method="post">
     {% csrf_token %}
     <div class="auth-form">
+        <h6 class="mb-4">Уже есть аккаунт?<span class="float-end"><a class="text-decoration-none text-dark" href="{% url 'login' %}">Войти</a></span></h6>
         <div class="form-error">{{ form.non_field_errors }}</div>
         {% for f in form %}
             <div class="mb-3">

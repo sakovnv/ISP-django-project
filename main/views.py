@@ -61,6 +61,16 @@ class Home(DataMixin, TemplateView):
         return dict(list(context.items()) + list(u_context.items()))
 
 
+class SubscribedAds(DataMixin, TemplateView):
+    template_name = 'main/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ads = Ad.objects.filter(category__in=self.request.user.category_subscriptions.all())
+        u_context = self.get_context(title='Главная страница', selected_category=0, ads=ads)
+        return dict(list(context.items()) + list(u_context.items()))
+
+
 class CategoryAds(DataMixin, TemplateView):
     template_name = 'main/index.html'
 
@@ -75,7 +85,6 @@ class CategoryAds(DataMixin, TemplateView):
 class CreateAd(DataMixin, CreateView):
     form_class = CreateAdForm
     template_name = 'ad/create.html'
-    success_url = reverse_lazy('home')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -83,13 +92,13 @@ class CreateAd(DataMixin, CreateView):
         return dict(list(context.items()) + list(u_context.items()))
 
     def form_valid(self, form):
-        if self.request.user is not AnonymousUser:
+        if self.request.user.is_authenticated:
             form.instance.author = self.request.user
         ad = form.save()
 
         logger.info(f'{self.request.user} created ad "{ad.title}"')
 
-        return redirect('home')
+        return super().form_valid(form)
 
 
 class EditAd(DataMixin, UpdateView):
@@ -172,8 +181,8 @@ def logout_user(request):
 def subscribe_category(request):
     category_id = request.POST['category_id']
     if bool(request.POST['is_subscribed'] == 'true'):
-        request.user.category_subscription.add(category_id)
+        request.user.category_subscriptions.add(category_id)
     else:
-        request.user.category_subscription.remove(category_id)
+        request.user.category_subscriptions.remove(category_id)
 
     return HttpResponse(status=204)

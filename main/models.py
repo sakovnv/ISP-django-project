@@ -5,7 +5,7 @@ from django.urls import reverse
 
 class User(AbstractUser):
     ads_count = models.IntegerField(default=0)
-    category_subscription = models.ManyToManyField('Category')
+    category_subscriptions = models.ManyToManyField('Category')
 
     def __str__(self):
         return self.username
