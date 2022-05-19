@@ -1,0 +1,58 @@
+[
+{
+    "model": "main.category",
+    "pk": 1,
+    "fields": {
+        "name": "Недвижимость",
+        "slug": "property"
+    }
+},
+{
+    "model": "main.category",
+    "pk": 2,
+    "fields": {
+        "name": "Транспорт",
+        "slug": "transport"
+    }
+},
+{
+    "model": "main.category",
+    "pk": 3,
+    "fields": {
+        "name": "Техника",
+        "slug": "technique"
+    }
+},
+{
+    "model": "main.category",
+    "pk": 4,
+    "fields": {
+        "name": "Электроника",
+        "slug": "electronics"
+    }
+},
+{
+    "model": "main.category",
+    "pk": 5,
+    "fields": {
+        "name": "Женский гардероб",
+        "slug": "womens-wardrobe"
+    }
+},
+{
+    "model": "main.category",
+    "pk": 6,
+    "fields": {
+        "name": "Мужской гардероб",
+        "slug": "mens-wardrobe"
+    }
+},
+{
+    "model": "main.category",
+    "pk": 7,
+    "fields": {
+        "name": "Мебель",
+        "slug": "furniture"
+    }
+}
+]

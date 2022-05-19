@@ -1,0 +1,92 @@
+[
+{
+    "model": "main.ad",
+    "pk": 1,
+    "fields": {
+        "title": "Продам велосипед",
+        "description": "В очередной раз пишу, что это очень крутой велосипед который я бы хотел посоветовать всем своим друзьям и родственниками.",
+        "cost": 120,
+        "category": 2,
+        "phone": "+375 (25) 640-36-56",
+        "image": "images/<django.db.models.fields.CharField>/1.jpg",
+        "time_create": "2022-05-18T18:49:28.761Z",
+        "time_update": "2022-05-18T18:49:28.761Z",
+        "author": null
+    }
+},
+{
+    "model": "main.ad",
+    "pk": 2,
+    "fields": {
+        "title": "Продам ботинок",
+        "description": "Продам очень крутой ботинок, нереально крутой, всем советую купить скорее.\r\nЕсли вы не попробуете, то всю жизнь будете жалеть.",
+        "cost": 100,
+        "category": 5,
+        "phone": "375291432566",
+        "image": "images/<django.db.models.fields.CharField>/y3mv2c85xa3uuz7zjzsh6yjango008ra_MQMbMw7.jpg",
+        "time_create": "2022-05-18T19:00:15.178Z",
+        "time_update": "2022-05-18T19:00:15.178Z",
+        "author": 1
+    }
+},
+{
+    "model": "main.ad",
+    "pk": 3,
+    "fields": {
+        "title": "Продам кота",
+        "description": "Очень крутой кот, бегает в магазин и убирается по дому.",
+        "cost": 150,
+        "category": 3,
+        "phone": "375295463678",
+        "image": "images/<django.db.models.fields.CharField>/png-clipart-cat-kitten-drawing-cat-white-face.png",
+        "time_create": "2022-05-18T19:03:11.493Z",
+        "time_update": "2022-05-18T19:03:11.493Z",
+        "author": 1
+    }
+},
+{
+    "model": "main.ad",
+    "pk": 4,
+    "fields": {
+        "title": "ф312",
+        "description": "32131",
+        "cost": 12313,
+        "category": 5,
+        "phone": "12313",
+        "image": "images/<django.db.models.fields.CharField>/png-clipart-cat-kitten-drawing-cat-white-face_KI5TUEY.png",
+        "time_create": "2022-05-18T19:03:57.526Z",
+        "time_update": "2022-05-18T19:03:57.526Z",
+        "author": 1
+    }
+},
+{
+    "model": "main.ad",
+    "pk": 5,
+    "fields": {
+        "title": "пипипи",
+        "description": "цфцафца",
+        "cost": 123,
+        "category": 3,
+        "phone": "1231",
+        "image": "images/<django.db.models.fields.CharField>/1_fCjYhQe.jpg",
+        "time_create": "2022-05-18T19:04:30.693Z",
+        "time_update": "2022-05-18T19:04:30.693Z",
+        "author": 1
+    }
+},
+{
+    "model": "main.ad",
+    "pk": 6,
+    "fields": {
+        "title": "sdawd",
+        "description": "dwadawd",
+        "cost": 222,
+        "category": 5,
+        "phone": "2343242",
+        "image": "images/<django.db.models.fields.CharField>/announcement_78371.ico",
+        "time_create": "2022-05-18T19:30:01.483Z",
+        "time_update": "2022-05-18T19:30:01.483Z",
+        "author": 1
+    }
+}
+]
