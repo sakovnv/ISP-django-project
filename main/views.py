@@ -1,14 +1,10 @@
 import logging
 
 from django.contrib.auth import logout, login
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.decorators.csrf import csrf_protect
-from django.views.defaults import page_not_found
 from django.views.generic import CreateView, TemplateView, UpdateView, DeleteView
 
 from .forms import *
@@ -167,7 +163,12 @@ class Login(DataMixin, LoginView):
 
 def ad_view(request, ad_id):
     ad = Ad.objects.select_related('author', 'category').get(pk=ad_id)
-    return render(request, 'ad/index.html', {'ad': ad, 'title': 'Объявление', 'categories': Category.objects.all()})
+    return render(request, 'ad/index.html',
+                  {
+                      'ad': ad,
+                      'title': 'Объявление',
+                      'categories': asyncio.run(get_all_categories())
+                  })
 
 
 def logout_user(request):
